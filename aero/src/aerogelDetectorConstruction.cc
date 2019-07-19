@@ -450,6 +450,9 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
 
     G4Tubs *fiber_y = new G4Tubs("fiber Y", 0., mesh.fiber_diam/2., Aer_hight - 0.1*mm, 0.*deg, 360.*deg);
 
+    //    xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2. + mesh.fiber_diam;   //visualization, no overlays
+    //    while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2. + mesh.fiber_diam) {
+
     xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2.;
     while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2.) {
 
@@ -470,8 +473,8 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
 
     //    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, Air, "fiber mesh log", 0,0,0);
     //    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, CarbonMaterial, "fiber mesh log", 0,0,0);
-    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, CopperMaterial, "fiber mesh log", 0,0,0);
-
+    //    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, CopperMaterial, "fiber mesh log", 0,0,0);
+    /*
     G4OpticalSurface* FiberOptSurf = new G4OpticalSurface("FiberOptSurf");
     FiberOptSurf -> SetType(dielectric_metal);
     FiberOptSurf -> SetFinish(polished);
@@ -481,6 +484,9 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
     //  FiberOptSurf->DumpInfo();
 
     new G4LogicalSkinSurface("FiberOptSurf", fiber_mesh_log, FiberOptSurf);
+    */
+
+    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, glass, "fiber mesh log", 0,0,0);
 
     fiber_mesh_z_phys = new G4PVPlacement(0,G4ThreeVector(),fiber_mesh_log, "fiber mesh", aerogel_log, false, 0);
  }
