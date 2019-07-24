@@ -14,16 +14,15 @@ class aerogelEventAction : public G4UserEventAction
     aerogelEventAction(aerogelRunAction*);
    ~aerogelEventAction();
 
-  public:
-FILE* outFileNPE;
-FILE* outFileaerogel;
-
-G4int num_gamma[2][8];
-G4int nPMT;
-
-
   //void AddNumGamma(G4int col, G4int row, G4int QEff){num_gamma[col][row] = num_gamma[col][row]+QEff + 1;};
-void AddNumGamma(G4int col, G4int row){num_gamma[col][row] = num_gamma[col][row]+1;};
+  void AddNumGamma(G4int col, G4int row){num_gamma[col][row] = num_gamma[col][row]+1;};
+
+  void AddNumGammaGenerated(int n) {num_gamma_generated += n;};
+  void AddNumGammaBulkAbsorbed(int n) {num_gamma_bulk_absorbed += n;};
+  void AddNumGammaBoundaryAbsorbed(int n) {num_gamma_boundary_absorbed += n;};
+  void AddNumGammaMeshAbsorbed(int n) {num_gamma_mesh_absorbed += n;};
+  void AddNumGammaMeshTrapped(int n) {num_gamma_mesh_trapped += n;};
+  void AddNumGammaCathodeAbsorbed(int n) {num_gamma_cathode_absorbed += n;};
 
   void BeginOfEventAction(const G4Event* anEvent);
   void EndOfEventAction(const G4Event* anEvent);
@@ -46,8 +45,21 @@ private:
    G4double Y;
    G4double Z;
 
+  FILE* outFileNPE;
+  FILE* outFileaerogel;
+
+  G4int num_gamma[2][8];
+  G4int nPMT;
+
+  G4double num_tot;
+  int num_gamma_generated;
+  int num_gamma_bulk_absorbed;
+  int num_gamma_boundary_absorbed;
+  int num_gamma_mesh_absorbed;
+  int num_gamma_mesh_trapped;
+  int num_gamma_cathode_absorbed;
+
    aerogelRunAction* runAct;
 };
 
 #endif
-   

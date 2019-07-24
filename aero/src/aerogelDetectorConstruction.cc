@@ -91,8 +91,8 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
     ///    const double fiber_diam = 2.*mm;
     const double fiber_diam = 0.1*mm;
     const double step_x = 1.*cm;     //keep constant
-    const double step_y = 0.05*cm;
-    const double step_z = 0.05*cm;
+    const double step_y = 0.1*cm;
+    const double step_z = 0.1*cm;
   } mesh;
 
   cout << "aerogelDetectorConstruction::Construct: fiber mesh sizes:" << endl;
@@ -431,10 +431,10 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
     G4MultiUnion *fiber_mesh = new G4MultiUnion("fiber mesh");
     G4Tubs *fiber_z = new G4Tubs("fiber Z", 0., mesh.fiber_diam/2., Aer_width - 0.1*mm, 0.*deg, 360.*deg);
 
-    //--    double xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2.;
-    //--    while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2.) {
-    double xf = -Aer_depth + 0.5*cm;
-    while (xf < Aer_depth) {
+    //    double xf = -Aer_depth + 0.5*cm;
+    //    while (xf < Aer_depth) {
+    double xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2.;
+    while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2.) {
       
       double yf = -Aer_hight + 0.1*mm + mesh.fiber_diam/2.;
       while (yf <= Aer_hight - 0.1*mm - mesh.fiber_diam/2.) {
@@ -450,11 +450,11 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
 
     G4Tubs *fiber_y = new G4Tubs("fiber Y", 0., mesh.fiber_diam/2., Aer_hight - 0.1*mm, 0.*deg, 360.*deg);
 
-    //    xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2. + mesh.fiber_diam;   //visualization, no overlays
-    //    while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2. + mesh.fiber_diam) {
+    //    xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2.;
+    //    while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2.) {
 
-    xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2.;
-    while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2.) {
+    xf = -Aer_depth + 0.1*mm + mesh.fiber_diam/2. + mesh.fiber_diam;   //visualization, no overlays
+    while (xf <= Aer_depth - 0.1*mm - mesh.fiber_diam/2. + mesh.fiber_diam) {
 
       double zf = -Aer_width + 0.1*mm + mesh.fiber_diam/2.;
       while (zf <= Aer_width - 0.1*mm - mesh.fiber_diam/2.) {
@@ -473,8 +473,8 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
 
     //    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, Air, "fiber mesh log", 0,0,0);
     //    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, CarbonMaterial, "fiber mesh log", 0,0,0);
-    //    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, CopperMaterial, "fiber mesh log", 0,0,0);
-    /*
+    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, CopperMaterial, "fiber mesh log", 0,0,0);
+
     G4OpticalSurface* FiberOptSurf = new G4OpticalSurface("FiberOptSurf");
     FiberOptSurf -> SetType(dielectric_metal);
     FiberOptSurf -> SetFinish(polished);
@@ -484,9 +484,8 @@ G4VPhysicalVolume* aerogelDetectorConstruction::Construct()
     //  FiberOptSurf->DumpInfo();
 
     new G4LogicalSkinSurface("FiberOptSurf", fiber_mesh_log, FiberOptSurf);
-    */
 
-    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, glass, "fiber mesh log", 0,0,0);
+    //    G4LogicalVolume *fiber_mesh_log = new G4LogicalVolume(fiber_mesh, glass, "fiber mesh log", 0,0,0);
 
     fiber_mesh_z_phys = new G4PVPlacement(0,G4ThreeVector(),fiber_mesh_log, "fiber mesh", aerogel_log, false, 0);
  }

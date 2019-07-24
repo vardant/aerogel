@@ -23,7 +23,7 @@ aerogelEventAction::aerogelEventAction(aerogelRunAction* run)
 aerogelEventAction::~aerogelEventAction()
 {
 }
-G4double num_tot = 0.;
+
 void aerogelEventAction::BeginOfEventAction(const G4Event* anEvent)
 {
   G4int iev = anEvent->GetEventID();
@@ -36,6 +36,13 @@ void aerogelEventAction::BeginOfEventAction(const G4Event* anEvent)
      num_gamma[i][j] = 0;
    }
  }
+
+ num_gamma_generated = 0;
+ num_gamma_bulk_absorbed = 0;
+ num_gamma_boundary_absorbed = 0;
+ num_gamma_mesh_absorbed = 0;
+ num_gamma_mesh_trapped = 0;
+ num_gamma_cathode_absorbed = 0;
 
 } 
 
@@ -63,7 +70,9 @@ fprintf(outFileaerogel,"%d %.7f %.7f %.7f %.7f %.4f %.d\n",nPMT,Z,Y,psi,phi,mom,
 
 
  outFileNPE = runAct->GetFileNPE();
- fprintf(outFileNPE, "%0.f\n", num_tot);
+ fprintf(outFileNPE, "%5.f %5d %5d %5d %5d %5d %5d\n", num_tot, num_gamma_generated,
+	 num_gamma_bulk_absorbed, num_gamma_boundary_absorbed, num_gamma_mesh_absorbed, num_gamma_mesh_trapped,
+	 num_gamma_cathode_absorbed);
  fprintf(outFileaerogel, "%0.f\n",num_tot);
  G4cout<<"Number of photoelectrons from Aerogel: "<<num_tot<<"\n";
 
